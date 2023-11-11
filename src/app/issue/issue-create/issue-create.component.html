@@ -1,0 +1,31 @@
+<form (submit)="onaddissue(addIssue)" #addIssue="ngForm">
+    <input type="text"
+           ngModel name="title"
+           placeholder="Issue Title"
+           required
+           minlength="1"
+           #title="ngModel"/>
+    <div *ngIf="title.invalid && (title.dirty || title.touched)">
+        Title is required.
+    </div>
+
+    <textarea
+           ngModel name="description"
+           placeholder="Issue Description"
+           required
+           #description="ngModel"></textarea>
+    <div *ngIf="description.invalid && (description.dirty || description.touched)">
+        Description is required.
+    </div>
+
+    <input type="text"
+           ngModel name="department"
+           placeholder="Responsible Department"
+           required
+           #department="ngModel"/>
+    <div *ngIf="department.invalid && (department.dirty || department.touched)">
+        Department is required.
+    </div>
+
+    <button type="submit">Add Issue</button>
+</form>

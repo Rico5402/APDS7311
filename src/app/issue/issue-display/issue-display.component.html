@@ -1,0 +1,7 @@
+<div *ngFor="let issue of issues">
+  <p>{{ issue.title }}</p> <!-- Corrected from {{ issue.id }} -->
+  <p>{{ issue.description }}</p> <!-- Corrected from {{ issue.name }} -->
+  <!-- You can also display the department if needed -->
+  <p>{{ issue.department }}</p>
+  <button (click)="ondelete(issue._id)">Delete</button>
+</div>
