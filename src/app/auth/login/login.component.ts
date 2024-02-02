@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthServiceService } from '../auth-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar'; 
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { AuthServiceService } from '../auth-service.service';
 export class LoginComponent implements OnInit {
   buttonLabel: string;
 
-  constructor(public authservice: AuthServiceService, private router: Router) {
+  constructor(public authservice: AuthServiceService, private router: Router, private snackBar: MatSnackBar) {
     // Set the default button label based on the current route
     this.buttonLabel = this.router.url.includes('/signup') ? 'Signup' : 'Login';
   }
@@ -28,6 +29,9 @@ export class LoginComponent implements OnInit {
   onLogin(loginform: NgForm) {
     if (loginform.invalid) {
       // Add logic to display an error message
+      this.snackBar.open('Please fill in all required fields.', 'Dismiss', {
+        duration: 3000, // Display for 3 seconds
+      });
       return;
     }
 
@@ -41,11 +45,18 @@ export class LoginComponent implements OnInit {
       this.authservice.login(username, password).subscribe(
         response => {
           this.authservice.saveToken(response.token); // Save the token upon successful login
-          this.router.navigate(['/signup']); // Navigate to the home page upon successful login
+          this.router.navigate(['/add']); // Navigate to the home page upon successful login
+
+          // Display a success message using MatSnackBar
+          this.snackBar.open('Login successful!', 'Dismiss', {
+            duration: 3000, // Display for 3 seconds
+          });
         },
         error => {
           // Handle the login error
-          // Add logic to display an error message to the user
+          this.snackBar.open('Login failed. Please check your credentials.', 'Dismiss', {
+            duration: 3000, // Display for 3 seconds
+          });
         }
       );
     } else {
@@ -53,12 +64,34 @@ export class LoginComponent implements OnInit {
         response => {
           // Handle the signup success
           // For example, navigate to a 'check your email' page or similar
+
+          // Display a success message using MatSnackBar
+          this.snackBar.open('Signup successful!', 'Dismiss', {
+            duration: 3000, // Display for 3 seconds
+          });
+           // Redirect to the login page after successful signup
+      this.router.navigate(['/login']);
         },
         error => {
           // Handle the signup error
-          // Add logic to display an error message to the user
+          this.snackBar.open('Signup failed. Please try again later.', 'Dismiss', {
+            duration: 3000, // Display for 3 seconds
+          });
         }
       );
     }
+  }
+  
+  onSignOut() {
+    // Call the logout method from AuthServiceService to clear the user's token
+    this.authservice.logout();
+
+    // Redirect to the login page
+    this.router.navigate(['/login']); // Change this to the correct route for your login page
+
+    // Display a sign-out message using MatSnackBar
+    this.snackBar.open('You have been signed out.', 'Dismiss', {
+      duration: 3000, // Display for 3 seconds
+    });
   }
 }

@@ -11,11 +11,11 @@ export class AuthServiceService {
   constructor(private http: HttpClient) { }
 
   signup(username: string, password: string): Observable<any> {
-    return this.http.post('https://localhost:3000/api/users/signup', {username, password});
+    return this.http.post('http://localhost:3000/api/users/signup', {username, password});
   }
 
   login(username: string, password: string): Observable<{ token: string }> {
-    return this.http.post<{ token: string }>('https://localhost:3000/api/users/login', {username, password});
+    return this.http.post<{ token: string }>('http://localhost:3000/api/users/login', {username, password});
   }
 
   saveToken(token: string): void {

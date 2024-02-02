@@ -22,7 +22,7 @@ export class IssueServiceService {
   constructor(private http: HttpClient) { }
 
   addissue_service(issueData: { title: string, description: string, department: string }) {
-    this.http.post<{ message: string, issue: Issue }>('https://localhost:3000/api/issues', issueData)
+    this.http.post<{ message: string, issue: Issue }>('http://localhost:3000/api/issues', issueData)
       .subscribe({
         next: (responseData) => {
           this.issues.push(responseData.issue);
@@ -37,7 +37,7 @@ export class IssueServiceService {
   }
 
   getissue_service() {
-    this.http.get<{ message: string, issues: Issue[] }>('https://localhost:3000/api/issues')
+    this.http.get<{ message: string, issues: Issue[] }>('http://localhost:3000/api/issues')
       .subscribe((responseData) => {
         this.issues = responseData.issues;
         this.issuesUpdated.next([...this.issues]);
@@ -45,7 +45,7 @@ export class IssueServiceService {
   }
 
   deleteissue_service(issueId: string) {
-    this.http.delete<{ message: string }>('https://localhost:3000/api/issues/' + issueId)
+    this.http.delete<{ message: string }>('http://localhost:3000/api/issues/' + issueId)
       .subscribe(() => {
         const updatedIssues = this.issues.filter(issue => issue._id !== issueId);
         this.issues = updatedIssues;

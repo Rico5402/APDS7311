@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Issue, IssueServiceService } from '../issue-service.service'; // Adjust the import path as needed
+import { Issue, IssueServiceService } from '../issue-service.service'; 
 
 @Component({
   selector: 'app-issue-display',
